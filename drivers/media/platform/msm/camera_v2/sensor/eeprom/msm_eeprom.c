@@ -152,10 +152,25 @@ static int read_eeprom_memory(struct msm_eeprom_ctrl_t *e_ctrl,
 	struct msm_eeprom_board_info *eb_info;
 	uint8_t *memptr = block->mapdata;
 
+#ifdef CONFIG_MACH_XIAOMI_MIDO
+	uint8_t sensor_id[2] = {0};
+#endif
+
 	if (!e_ctrl) {
 		pr_err("%s e_ctrl is NULL", __func__);
 		return -EINVAL;
 	}
+
+#ifdef CONFIG_MACH_XIAOMI_MIDO
+	e_ctrl->i2c_client.addr_type = 2;
+	rc = e_ctrl->i2c_client.i2c_func_tbl->i2c_read_seq(
+			&(e_ctrl->i2c_client), 0x0000,
+			sensor_id, 2);
+	if (rc < 0) {
+		pr_err("%s %d error\n", __func__, __LINE__);
+		return rc;
+	}
+#endif
 
 	eb_info = e_ctrl->eboard_info;
 
