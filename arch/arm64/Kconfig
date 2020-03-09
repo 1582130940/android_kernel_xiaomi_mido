@@ -1141,3 +1141,7 @@ endif
 source "lib/Kconfig"
 
 source "arch/arm64/mm/Kconfig"
+
+config MACH_XIAOMI_MIDO
+	bool "Xiaomi Redmi Note 4/4X"
+	default y
